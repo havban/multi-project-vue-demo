@@ -5,7 +5,7 @@ import Hola from 'components/Hola'
 
 Vue.use(Router)
 
-export default new Router({
+var mainVueRouter = new Router({
   routes: [
     {
       path: '/',
@@ -20,3 +20,7 @@ export default new Router({
   ],
   mode: 'history'
 })
+
+window.mainVueRouter = mainVueRouter
+
+export default mainVueRouter

@@ -5,18 +5,25 @@ import Doremi from 'components/Doremi'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    },
-    {
-      path: '/hola',
-      name: 'Doremi',
-      component: Doremi
-    }
-  ],
+let routes = [
+  {
+    path: '/hola',
+    redirect: '/hola/1'
+  },
+  {
+    path: '/hola/1',
+    name: 'Hello',
+    component: Hello
+  },
+  {
+    path: '/hola/2',
+    component: Doremi
+  }
+]
+
+var router = new Router({
+  routes: routes,
   mode: 'history'
 })
+
+export default router
