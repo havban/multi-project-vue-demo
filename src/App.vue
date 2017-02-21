@@ -1,0 +1,76 @@
+<template>
+<div>
+  <div id="app">
+    <button onclick="alert('my menu')">My Menu</button>
+    <router-link to="/">Home</router-link>
+    <router-link to="/hola" @click.native="goToHola">Hola</router-link>
+    <button v-on:click="goToDoremi">Go to Doremi</button>
+    <img src="./assets/logo.png">
+    <router-view></router-view>
+  </div>
+  <div id="doremi">
+  </div>
+  <div id="app2">
+  </div>
+</div>
+</template>
+
+<script>
+export default {
+  name: 'app',
+  created: function () {
+    this.goToHola()
+  },
+  methods: {
+    goToDoremi: function () {
+      // GET /someUrl
+      this.$http.get('http://localhost:8080/static/p3.html').then(response => {
+        // get body data
+        let l = document.getElementsByTagName('script')
+        for (let i in l) {
+          console.log(l[i])
+          if (l[i].remove) {
+            // l[i].remove()
+          }
+        }
+        var script = document.createElement('script')
+        script.src = response.body
+        document.getElementById('doremi').appendChild(script)
+        console.log(this.$router)
+        this.$router.push('/doremi')
+      }, response => {
+        // error callback
+      })
+    },
+    goToHola: function () {
+      // GET /someUrl
+      this.$http.get('http://localhost:8080/static/p1.html').then(response => {
+        // get body data
+        let l = document.getElementsByTagName('script')
+        for (let i in l) {
+          console.log(l[i])
+          if (l[i].remove) {
+            // l[i].remove()
+          }
+        }
+        var script = document.createElement('script')
+        script.src = response.body
+        document.getElementById('doremi').appendChild(script)
+      }, response => {
+        // error callback
+      })
+    }
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
