@@ -7,10 +7,11 @@
     <button v-on:click="goToDoremi">Go to Doremi</button>
     <img src="./assets/logo.png">
     <router-view></router-view>
-  </div>
-  <div id="doremi">
-  </div>
-  <div id="app2">
+
+    <div id="doremi">
+    </div>
+    <div id="app2">
+    </div>
   </div>
 </div>
 </template>
@@ -35,7 +36,12 @@ export default {
         }
         var script = document.createElement('script')
         script.src = response.body
-        document.getElementById('doremi').appendChild(script)
+
+        let myNode = document.getElementById('doremi')
+        while (myNode.firstChild) {
+          myNode.removeChild(myNode.firstChild)
+        }
+        myNode.appendChild(script)
         console.log(this.$router)
         this.$router.push('/doremi')
       }, response => {
@@ -55,7 +61,12 @@ export default {
         }
         var script = document.createElement('script')
         script.src = response.body
-        document.getElementById('doremi').appendChild(script)
+
+        let myNode = document.getElementById('doremi')
+        while (myNode.firstChild) {
+          myNode.removeChild(myNode.firstChild)
+        }
+        myNode.appendChild(script)
       }, response => {
         // error callback
       })
