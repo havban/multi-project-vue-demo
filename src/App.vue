@@ -12,14 +12,15 @@
     </div>
     <div id="app2">
     </div>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
 export default {
   name: 'app',
   created: function () {
+//    let currentPath = this.$router.history.current.path
     this.goToHola()
   },
   methods: {
@@ -34,16 +35,16 @@ export default {
             // l[i].remove()
           }
         }
-        var script = document.createElement('script')
-        script.src = response.body
-
         let myNode = document.getElementById('doremi')
         while (myNode.firstChild) {
           myNode.removeChild(myNode.firstChild)
         }
-        myNode.appendChild(script)
-        console.log(this.$router)
-        this.$router.push('/doremi')
+        let scripts = response.body.split(',')
+        for (let i in scripts) {
+          let script = document.createElement('script')
+          script.src = scripts[i]
+          myNode.appendChild(script)
+        }
       }, response => {
         // error callback
       })
@@ -59,17 +60,44 @@ export default {
             // l[i].remove()
           }
         }
-        var script = document.createElement('script')
-        script.src = response.body
-
         let myNode = document.getElementById('doremi')
         while (myNode.firstChild) {
           myNode.removeChild(myNode.firstChild)
         }
-        myNode.appendChild(script)
+        let scripts = response.body.split(',')
+//        for (let i in scripts) {
+//          let script = document.createElement('script')
+//          script.src = scripts[i]
+//          myNode.appendChild(script)
+//        }
+        let i = 0
+        let self = this
+        let getScriptSuccess = function () {
+          if (i > scripts.length - 2) {
+            return
+          }
+          i++
+          self.getScript(scripts[i], getScriptSuccess)
+        }
+        this.getScript(scripts[0], getScriptSuccess)
       }, response => {
         // error callback
       })
+    },
+    getScript: function (url, success) {
+      var head = document.getElementsByTagName('head')[0]
+      var done = false
+      var script = document.createElement('script')
+      script.src = url
+      // Attach handlers for all browsers
+      script.onload = script.onreadystatechange = function () {
+        if (!done && (!this.readyState ||
+          this.readyState === 'loaded' || this.readyState === 'complete')) {
+          done = true
+          success()
+        }
+      }
+      head.appendChild(script)
     }
   }
 }

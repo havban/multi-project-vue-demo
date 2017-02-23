@@ -8,10 +8,6 @@ Vue.use(Router)
 let routes = [
   {
     path: '/hola',
-    redirect: '/hola/1'
-  },
-  {
-    path: '/hola/1',
     name: 'Hello',
     component: Hello
   },
